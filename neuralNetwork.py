@@ -10,9 +10,9 @@ class NeuralNetwork:
             self.dense2 = layer2
             self.output = output
         else:
-            self.dense1 = tf.keras.layers.Dense(layer1, activation='relu')
-            self.dense2 = tf.keras.layers.Dense(layer2, activation='relu')
-            self.output = tf.keras.layers.Dense(18, activation='softmax') # 13 possible scoring outputs + 5 reroll options
+            self.dense1 = tf.keras.layers.Dense(layer1, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu')
+            self.dense2 = tf.keras.layers.Dense(layer2, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu')
+            self.output = tf.keras.layers.Dense(18, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu') # 13 possible scoring outputs + 5 reroll options
         self.genModel()
 
     def genModel(self):
@@ -40,7 +40,7 @@ class NeuralNetwork:
                 try:
                     for k in range(len(weights[i][j])):
                         if np.random.random() < mutation_chance:
-                            weights[i][j][k] += np.random.normal(0, 0.1)
+                            weights[i][j][k] += np.random.normal(0, mutation_std)
                 except Exception:
                     weights[i][j] += np.random.normal()
 
