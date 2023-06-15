@@ -13,16 +13,19 @@ def next_generation(population):
     next_generation = []
     next_generation.append(population[np.argmax(relative_fitness)])
     for i in range(population_size-1):
-        pickedAgent = population[pickAgent(relative_fitness)]
+        pickedAgent = population[pickAgentBest(relative_fitness)]
         pickedAgent.mutate()
         next_generation.append(pickedAgent)
 
-    return next_generation
+    return next_generation, max_score
 
-def pickAgent(fitness):
+def pickAgentThreshold(fitness):
     fitness_threshold = np.random.random()
     index = 0
     while fitness_threshold > 0:
         fitness_threshold -= fitness[index]
         index += 1
     return index-1
+
+def pickAgentBest(fitness):
+    return np.argmax(fitness)
