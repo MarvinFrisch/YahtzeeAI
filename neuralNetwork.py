@@ -4,7 +4,7 @@ from parameters import *
 
 class NeuralNetwork:
 
-    def __init__(self, layer1, layer2, output, copy=False):
+    def __init__(self, input, layer1, layer2, output, copy=False):
         if copy:
             self.dense1 = layer1
             self.dense2 = layer2
@@ -12,12 +12,12 @@ class NeuralNetwork:
         else:
             self.dense1 = tf.keras.layers.Dense(layer1, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu')
             self.dense2 = tf.keras.layers.Dense(layer2, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu')
-            self.output = tf.keras.layers.Dense(18, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='relu') # 13 possible scoring outputs + 5 reroll options
-        self.genModel()
+            self.output = tf.keras.layers.Dense(output, kernel_initializer=tf.keras.initializers.RandomNormal(stddev=start_std), activation='sigmoid')
+        self.genModel(input)
 
-    def genModel(self):
+    def genModel(self, input):
         self.model = tf.keras.models.Sequential()
-        self.model.add(tf.keras.Input(shape=(19,)))
+        self.model.add(tf.keras.Input(shape=(input,)))
         self.model.add(self.dense1)
         self.model.add(self.dense2)
         self.model.add(self.output)

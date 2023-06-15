@@ -1,4 +1,4 @@
-population_size = 200
+population_size = 50
 number_of_generations = 200
 
 number_of_games = 5
